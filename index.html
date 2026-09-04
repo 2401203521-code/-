@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>N1 Vocabulary OS</title>
+<style>
+:root{--bg:#f5f6f8;--card:#fff;--text:#17181a;--muted:#6b7280;--line:#e5e7eb;--accent:#111827;--soft:#f0f2f5;--good:#166534;--goodbg:#dcfce7;--warn:#92400e;--warnbg:#fef3c7}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif;background:var(--bg);color:var(--text)}
+.app{display:flex;min-height:100vh}.side{width:245px;background:#111827;color:#fff;padding:22px 16px;position:fixed;inset:0 auto 0 0}.brand{font-weight:800;font-size:20px;margin-bottom:24px}.brand small{display:block;color:#9ca3af;font-size:11px;font-weight:500;margin-top:4px}.nav button{width:100%;border:0;background:transparent;color:#d1d5db;text-align:left;padding:11px 12px;border-radius:9px;margin:3px 0;cursor:pointer;font-size:14px}.nav button.active,.nav button:hover{background:#374151;color:#fff}.side .hint{position:absolute;bottom:20px;color:#9ca3af;font-size:11px;line-height:1.6;padding:0 8px}.main{margin-left:245px;width:calc(100% - 245px);padding:30px;max-width:1400px}.top{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:22px}.eyebrow{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.08em}.title{font-size:30px;font-weight:800;margin:5px 0}.desc{color:var(--muted);font-size:14px}.search{display:flex;gap:8px;width:min(470px,100%)}input,select{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:11px 13px;font-size:14px;outline:none}input:focus,select:focus{border-color:#9ca3af}.search input{flex:1}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}.stat{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:16px}.stat b{font-size:24px;display:block;margin-bottom:4px}.stat span{color:var(--muted);font-size:12px}.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:18px}.toolbar{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap}.filters{display:flex;gap:8px;flex-wrap:wrap}.groups{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.group{border:1px solid var(--line);border-radius:12px;padding:16px;cursor:pointer;transition:.15s;background:#fff}.group:hover{transform:translateY(-1px);box-shadow:0 5px 18px #0000000d}.group h3{margin:0 0 7px;font-size:16px}.group p{margin:0;color:var(--muted);font-size:12px;line-height:1.6}.tag{display:inline-block;font-size:11px;background:var(--soft);padding:4px 7px;border-radius:999px;margin:9px 5px 0 0}.words{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.word{border:1px solid var(--line);border-radius:12px;padding:15px;cursor:pointer}.word:hover{border-color:#9ca3af}.wordtop{display:flex;justify-content:space-between;gap:10px}.jp{font-size:20px;font-weight:800}.reading{font-size:12px;color:var(--muted);margin-top:3px}.meaning{margin-top:9px;font-size:14px}.meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.pill{font-size:11px;padding:4px 7px;border-radius:999px;background:var(--soft);color:#4b5563}.pill.n1{background:#e0e7ff;color:#3730a3}.detail{position:fixed;inset:0;background:#0006;display:none;align-items:center;justify-content:center;padding:20px;z-index:5}.detail.show{display:flex}.modal{background:#fff;width:min(720px,100%);max-height:90vh;overflow:auto;border-radius:16px;padding:24px}.close{float:right;border:0;background:var(--soft);border-radius:50%;width:32px;height:32px;cursor:pointer}.modal h2{font-size:30px;margin:5px 0}.section{border-top:1px solid var(--line);padding-top:14px;margin-top:16px}.example{background:#f8fafc;border-radius:10px;padding:12px;line-height:1.7}.relation{display:flex;flex-wrap:wrap;gap:8px}.relation span{border:1px solid var(--line);padding:7px 10px;border-radius:9px;font-size:13px}.empty{text-align:center;color:var(--muted);padding:40px}.progress{height:7px;background:var(--soft);border-radius:999px;overflow:hidden;margin-top:9px}.progress i{display:block;height:100%;background:#111827;width:0}.mobilebar{display:none}
+@media(max-width:900px){.side{display:none}.main{margin:0;width:100%;padding:18px 14px 80px}.top{display:block}.search{margin-top:14px;width:100%}.grid{grid-template-columns:repeat(2,1fr)}.groups,.words{grid-template-columns:1fr}.mobilebar{display:flex;position:fixed;bottom:0;left:0;right:0;background:#111827;padding:8px;z-index:4;justify-content:space-around}.mobilebar button{background:transparent;border:0;color:#d1d5db;font-size:11px}.mobilebar button.active{color:#fff;font-weight:800}}
+</style></head>
+<body>
+<div class="app">
+<aside class="side"><div class="brand">N1 Vocabulary OS<small>语义词群 × 搜索 × 复习</small></div><div class="nav"><button class="active" data-view="home">⌂ 总览</button><button data-view="groups">▦ 词群</button><button data-view="words">Aa 词汇库</button><button data-view="review">↻ 今日复习</button></div><div class="hint">目标：不背孤立单词。<br>以“语义网络 + 搭配 + 近义辨析”建立 N1 词汇体系。</div></aside>
+<main class="main"><div id="content"></div></main>
+</div>
+<div class="mobilebar"><button class="active" data-view="home">总览</button><button data-view="groups">词群</button><button data-view="words">词汇</button><button data-view="review">复习</button></div>
+<div class="detail" id="detail"><div class="modal"><button class="close" onclick="closeDetail()">×</button><div id="detailBody"></div></div></div>
+<script>
+const groups=[
+{id:'ignore',name:'忽视・敷衍',desc:'不重视、疏忽、偷懒、轻视',words:['疎かにする','怠る','ないがしろにする','手を抜く','軽視する','無視する']},
+{id:'effort',name:'努力・投入',desc:'努力、专心、坚持、贯彻',words:['励む','努める','取り組む','打ち込む','貫く','奮う']},
+{id:'judge',name:'观察・判断',desc:'察觉、把握、看清、识破、预见',words:['察する','捉える','見極める','見据える','見抜く','見通す']},
+{id:'change',name:'变化・发展',desc:'增长、衰退、变化、进展',words:['増進する','衰える','廃れる','生じる','遂げる','めきめき上達する']},
+{id:'worsen',name:'恶化・僵局',desc:'事情复杂化、恶化、难以推进',words:['拗れる','縺れる','悪化する','深刻化する','難航する','紛糾する']},
+{id:'cause',name:'产生・导致',desc:'发生、引起、带来、招致、伴随',words:['生じる','引き起こす','もたらす','及ぼす','招く','伴う']},
+{id:'hide',name:'隐藏・暴露',desc:'隐藏、潜藏、泄露、揭露',words:['秘める','潜む','隠す','漏らす','暴露する','明かす']},
+{id:'support',name:'支持・维持',desc:'支持、保护、维持、确保',words:['支える','維持する','確保する','擁護する','保つ','補う']},
+{id:'law',name:'政治・法律',desc:'选举、搜查、扣押、起诉等新闻词汇',words:['出馬する','押収する','差し押さえる','没収する','起訴する','逮捕する']},
+{id:'resolve',name:'解决・处理',desc:'应对、解决、克服、避免',words:['対処する','解消する','克服する','回避する','防ぐ','防止する'}},
+{id:'emotion',name:'心理・挫折',desc:'失意、坚持、情绪变化',words:['挫ける','めげる','諦める','ひたむきに励む','抱く','秘める']},
+{id:'lastminute',name:'临时抱佛脚',desc:'考前突击、临时准备、仓促应对',words:['一夜漬けする','付け焼き刃','泥縄式で備える','急ごしらえする','にわか仕込み']}
+];
+const words=[
+['疎かにする','おろそかにする','忽视；不重视','ignore','N1','重要なことを疎かにする','基本を疎かにしてはいけない。'],
+['怠る','おこたる','疏忽；懈怠','ignore','N1','義務を怠る','安全確認を怠ってはならない。'],
+['ないがしろにする','ないがしろにする','轻视；不当回事','ignore','N1','人の気持ちをないがしろにする','現場の声をないがしろにしてはいけない。'],
+['手を抜く','てをぬく','偷懒；敷衍','ignore','N1','仕事で手を抜く','どんな仕事でも手を抜かない。'],
+['励む','はげむ','努力从事；勤奋','effort','N1','勉強に励む','目標に向かって勉強に励んでいる。'],
+['努める','つとめる','尽力；努力做到','effort','N1','改善に努める','サービスの改善に努めます。'],
+['取り組む','とりくむ','致力于；认真处理','effort','N1','問題に取り組む','環境問題に真剣に取り組んでいる。'],
+['打ち込む','うちこむ','全身心投入','effort','N1','研究に打ち込む','彼は研究に打ち込んでいる。'],
+['貫く','つらぬく','贯彻；坚持到底','effort','N1','信念を貫く','最後まで自分の信念を貫いた。'],
+['察する','さっする','察觉；体察','judge','N1','事情を察する','相手の気持ちを察することが大切だ。'],
+['捉える','とらえる','把握；看待','judge','N1','問題を捉える','問題を別の角度から捉える。'],
+['見極める','みきわめる','看清；判断清楚','judge','N1','真偽を見極める','情報の真偽を見極める必要がある。'],
+['見据える','みすえる','着眼于；看准未来','judge','N1','将来を見据える','将来を見据えて行動する。'],
+['見抜く','みぬく','看穿；识破','judge','N1','本質を見抜く','問題の本質を見抜く力が必要だ。'],
+['見通す','みとおす','看透；预见','judge','N1','先行きを見通す','今後の動向を見通すのは難しい。'],
+['増進する','ぞうしんする','增进；促进','change','N1','健康を増進する','健康の増進を図る。'],
+['衰える','おとろえる','衰退；减弱','change','N1','体力が衰える','年齢とともに体力が衰えてきた。'],
+['廃れる','すたれる','衰落；过时','change','N1','習慣が廃れる','昔の習慣が次第に廃れていく。'],
+['生じる','しょうじる','产生；发生','change','N1','問題が生じる','予想外の問題が生じた。'],
+['遂げる','とげる','完成；实现；取得','change','N1','成長を遂げる','この町は大きな発展を遂げた。'],
+['拗れる','こじれる','复杂化；恶化；陷入僵局','worsen','N1','交渉が拗れる','交渉が拗れて、解決まで時間がかかった。'],
+['縺れる','もつれる','纠缠；混乱','worsen','N1','人間関係が縺れる','両者の関係が複雑に縺れている。'],
+['悪化する','あっかする','恶化','worsen','N1','状況が悪化する','事態は急速に悪化した。'],
+['難航する','なんこうする','进展困难；陷入僵局','worsen','N1','交渉が難航する','交渉は難航している。'],
+['引き起こす','ひきおこす','引起；导致','cause','N1','事故を引き起こす','重大な事故を引き起こした。'],
+['もたらす','もたらす','带来；造成','cause','N1','変化をもたらす','社会に大きな変化をもたらした。'],
+['及ぼす','およぼす','对……产生影响','cause','N1','影響を及ぼす','環境に深刻な影響を及ぼす。'],
+['招く','まねく','招致；导致','cause','N1','混乱を招く','誤解を招く表現は避ける。'],
+['伴う','ともなう','伴随；伴有','cause','N1','リスクを伴う','この仕事には大きな責任が伴う。'],
+['秘める','ひめる','隐藏；蕴藏','hide','N1','可能性を秘める','この技術は大きな可能性を秘めている。'],
+['潜む','ひそむ','潜藏；隐藏着','hide','N1','危険が潜む','その計画には大きな危険が潜んでいる。'],
+['漏らす','もらす','泄露；漏出','hide','N1','情報を漏らす','秘密を外部に漏らしてはいけない。'],
+['暴露する','ばくろする','暴露','hide','N1','事実を暴露する','事件の真相が暴露された。'],
+['支える','ささえる','支撑；支持','support','N1','生活を支える','多くの人が社会を支えている。'],
+['維持する','いじする','维持','support','N1','現状を維持する','高い品質を維持する。'],
+['確保する','かくほする','确保； 확보','support','N1','安全を確保する','必要な人員を確保した。'],
+['擁護する','ようごする','维护；保护','support','N1','権利を擁護する','基本的人権を擁護する。'],
+['出馬する','しゅつばする','参选；参加选举','law','N1','選挙に出馬する','市長選への出馬を表明した。'],
+['押収する','おうしゅうする','扣押；查扣','law','N1','証拠品を押収する','警察は関係書類を押収した。'],
+['挫ける','くじける','气馁；受挫','emotion','N1','心が挫ける','失敗しても心が挫けない。'],
+['ひたむきに励む','ひたむきにはげむ','一心一意地努力','emotion','N1','ひたむきに努力する','夢に向かってひたむきに励んでいる。'],
+['一夜漬けする','いちやづけする','临时突击；熬夜恶补','lastminute','N1','試験前に一夜漬けする','一夜漬けでは本当の力は身につかない。'],
+['付け焼き刃','つけやきば','临时抱佛脚；表面功夫','lastminute','N1','付け焼き刃の知識','付け焼き刃の知識では対応できない。'],
+['泥縄式で備える','どろなわしきでそなえる','出了问题才临时准备','lastminute','N1','泥縄式の対応','泥縄式の対応では間に合わない。']
+].map((x,i)=>({id:i+1,jp:x[0],reading:x[1],meaning:x[2],group:x[3],level:x[4],collocation:x[5],example:x[6]}));
+let state={view:'home',query:'',group:'all',favorites:JSON.parse(localStorage.getItem('n1fav')||'[]'),learned:JSON.parse(localStorage.getItem('n1learn')||'[]')};
+const content=document.getElementById('content');
+function stats(){return `<div class="grid"><div class="stat"><b>${words.length}</b><span>当前词汇</span></div><div class="stat"><b>${groups.length}</b><span>语义词群</span></div><div class="stat"><b>${state.learned.length}</b><span>已掌握</span></div><div class="stat"><b>${Math.round(state.learned.length/words.length*100)||0}%</b><span>掌握率</span><div class="progress"><i style="width:${Math.round(state.learned.length/words.length*100)||0}%"></i></div></div></div>`}
+function header(title,desc){return `<div class="top"><div><div class="eyebrow">JLPT N1 / VOCABULARY SYSTEM</div><div class="title">${title}</div><div class="desc">${desc}</div></div><div class="search"><input id="search" placeholder="搜索日语、读音、中文、搭配…" value="${state.query}" oninput="state.query=this.value;render()"><select onchange="state.group=this.value;render()"><option value="all">全部词群</option>${groups.map(g=>`<option value="${g.id}" ${state.group===g.id?'selected':''}>${g.name}</option>`).join('')}</select></div></div>`}
+function wordCard(w){return `<div class="word" onclick="openDetail(${w.id})"><div class="wordtop"><div><div class="jp">${w.jp}</div><div class="reading">${w.reading}</div></div><span class="pill n1">N1</span></div><div class="meaning">${w.meaning}</div><div class="meta"><span class="pill">${groups.find(g=>g.id===w.group)?.name||''}</span><span class="pill">${w.collocation}</span></div></div>`}
+function filtered(){let q=state.query.trim().toLowerCase();return words.filter(w=>(state.group==='all'||w.group===state.group)&&(!q||[w.jp,w.reading,w.meaning,w.collocation,w.example].join(' ').toLowerCase().includes(q)))}
+function render(){if(state.view==='home')renderHome();if(state.view==='groups')renderGroups();if(state.view==='words')renderWords();if(state.view==='review')renderReview();document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===state.view))}
+function renderHome(){content.innerHTML=header('N1词汇体系','把孤立单词组织成可检索、可复习的语义网络。')+stats()+`<div class="panel"><div class="toolbar"><h2 style="margin:0;font-size:18px">核心词群</h2><span class="desc">点击词群进入学习</span></div><div class="groups">${groups.slice(0,6).map(groupCard).join('')}</div></div><div class="panel"><div class="toolbar"><h2 style="margin:0;font-size:18px">最近重点词</h2><button onclick="state.view='words';render()" style="border:0;background:var(--soft);padding:8px 10px;border-radius:8px;cursor:pointer">查看全部</button></div><div class="words">${words.slice(0,8).map(wordCard).join('')}</div></div>`}
+function groupCard(g){let count=words.filter(w=>w.group===g.id).length;return `<div class="group" onclick="state.view='words';state.group='${g.id}';render()"><h3>${g.name}</h3><p>${g.desc}</p><span class="tag">${count}词</span><span class="tag">语义网络</span></div>`}
+function renderGroups(){content.innerHTML=header('语义词群','先掌握概念，再掌握词汇；近义词放在同一网络中比较。')+`<div class="panel"><div class="groups">${groups.map(groupCard).join('')}</div></div>`}
+function renderWords(){let list=filtered();content.innerHTML=header('词汇库',`找到 ${list.length} 个词。支持中文、日语、读音、固定搭配搜索。`)+`<div class="panel"><div class="toolbar"><div class="filters"><span class="pill n1">N1</span><span class="pill">语义词群</span><span class="pill">搭配</span></div></div>${list.length?`<div class="words">${list.map(wordCard).join('')}</div>`:'<div class="empty">没有找到匹配词汇。<br>试试「影響」「忽视」「見極める」等关键词。</div>'}</div>`}
+function renderReview(){let due=words.filter(w=>!state.learned.includes(w.id)).slice(0,10);content.innerHTML=header('今日复习','把“没掌握”的词优先复习。点击词卡后标记为已掌握。')+stats()+`<div class="panel"><div class="toolbar"><h2 style="margin:0;font-size:18px">今日队列 · ${due.length}词</h2></div><div class="words">${due.map(wordCard).join('')||'<div class="empty">🎉 当前队列已清空。</div>'}</div></div>`}
+function openDetail(id){let w=words.find(x=>x.id===id),g=groups.find(x=>x.id===w.group);let related=words.filter(x=>x.group===w.group&&x.id!==w.id).slice(0,8);document.getElementById('detailBody').innerHTML=`<div class="eyebrow">${g?.name||''} · ${w.level}</div><h2>${w.jp}</h2><div class="reading">${w.reading}</div><div style="font-size:17px;margin-top:12px">${w.meaning}</div><div class="section"><b>高频搭配</b><p>${w.collocation}</p></div><div class="section"><b>例句</b><div class="example">${w.example}</div></div><div class="section"><b>同词群</b><div class="relation">${related.map(r=>`<span onclick="openDetail(${r.id})">${r.jp}</span>`).join('')}</div></div><div class="section"><button onclick="toggleLearn(${w.id})" style="border:0;border-radius:9px;padding:10px 14px;background:${state.learned.includes(w.id)?'var(--goodbg)':'var(--accent)'};color:${state.learned.includes(w.id)?'var(--good)':'white'};cursor:pointer">${state.learned.includes(w.id)?'✓ 已掌握':'标记为已掌握'}</button></div>`;document.getElementById('detail').classList.add('show')}
+function toggleLearn(id){state.learned=state.learned.includes(id)?state.learned.filter(x=>x!==id):[...state.learned,id];localStorage.setItem('n1learn',JSON.stringify(state.learned));openDetail(id);render()}
+function closeDetail(){document.getElementById('detail').classList.remove('show')}
+document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{state.view=b.dataset.view;render()});document.getElementById('detail').onclick=e=>{if(e.target.id==='detail')closeDetail()};render();
+</script></body></html>
