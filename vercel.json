@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/jlpt",
+      "destination": "/quiz.html"
+    },
+    {
+      "source": "/jlpt/:path*",
+      "destination": "/quiz.html"
+    }
+  ]
+}
